@@ -3,7 +3,7 @@
 
 using namespace std;
 
-long long n, k, a[305], dp[305][305][155], ans = 0;
+long long n, k, a[405], dp[405][405][205], ans = 0;
 
 int main(){
 	ios::sync_with_stdio(0);
