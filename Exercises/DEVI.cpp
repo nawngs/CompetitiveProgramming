@@ -1,87 +1,78 @@
 #include <bits/stdc++.h>
+#define ll long long
+#define fi first
+#define se second
+
 using namespace std;
-int n;
-long long b[100007];
-long long dev(int x)
-{
-	long long s = 1;
-	for(int i = 2; i <= sqrt(x); i++)
-		if(x % i == 0)
-		{
-			s += i;
+
+const ll INF = 1e18;
+
+ll n, t, a[100005];
+
+pair < ll, ll > it[800005];
+
+void build_tree(ll node, ll l, ll r){
+	if(l == r){
+		it[node].fi = a[l];
+		it[node].se = a[r];
+		return ;
+	}
+	ll mid = (l + r) / 2;
+	build_tree(node * 2, l, mid);
+	build_tree(node * 2 + 1, mid + 1, r);
+	it[node].fi = min(it[node * 2].fi, it[node * 2 + 1].fi);
+	it[node].se = max(it[node * 2].se, it[node * 2 + 1].se);
+}
+
+pair < ll, ll > query(ll node, ll l, ll r, ll u, ll v){
+	if(v < l || r < u || l > r){
+		return {INF, -INF};
+	}
+	if(u <= l && r <= v) return it[node];
+	ll mid = (l + r) / 2;
+	pair < ll, ll > lnode = query(node * 2, l, mid, u, v);
+	pair < ll, ll > rnode = query(node * 2 + 1, mid + 1, r, u, v);
+	return {min(lnode.fi, rnode.fi), max(lnode.se, rnode.se)};
+}
+
+ll build(ll x){
+	ll temp = 1;
+	for(int i = 2; i * i <= x; i++){
+		if(x % i == 0){
+			temp += i;
 			break;
 		}
-	if(s == 1) s += x;
-	s = s * s;
-	return s;
-}
-pair < long long , long long > seg[400040];
-void build(int l, int r, int node)
-{
-	if(l == r)
-	{
-		seg[node] = {b[l] , b[l]};
-		return;
 	}
-	int mid = (l + r)/2;
-	build(l, mid, node*2);
-	build(mid + 1, r, node*2 + 1);
-	seg[node] = {max(seg[node*2].first , seg[node*2 + 1].first) , min(seg[node*2 + 1].second , seg[node*2].second)};
+	if(temp == 1) temp += x;
+	return temp * temp;
 }
-pair < long long , long long > get(int u, int v, int l, int r, int node)
-{
-	if(r < u || v < l) return {-1e18, 1e18};
-	if(u <= l && r <= v) return seg[node];
-	int mid = (l + r)/2;
-	auto z1 = get(u, v, l, mid, node*2);
-	auto z2 = get(u , v, mid + 1, r, node*2 + 1);
-	return {max(z1.first , z2.first) , min(z1.second, z2.second)};
-}
-int main()
-{
+
+int main(){
 	ios::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
-	freopen("DEVI.inp","r",stdin);
-	freopen("DEVI.out","w",stdout);
-	int ntest;
-	cin >> n >> ntest;
-	for(int i = 1; i <= n; i++)
-	{
-		int a;
-		cin >> a;
-		b[i] = dev(a);
+	cin.tie(0);cout.tie(0);
+	freopen("DEVI.Inp", "r", stdin);
+	freopen("DEVI.Out", "w", stdout);
+	cin >> n >> t;
+	for(int i = 1; i <= n; i++){
+		cin >> a[i];
+		a[i] = build(a[i]);
 	}
-	build(1, n, 1);
-	while(ntest--)
-	{
-		long long q;
+	build_tree(1, 1, n);
+	while(t --){
+		ll q;
 		cin >> q;
-		int ans = 0;
-		int dau = 1;
-		int cuoi = 0;
-		//long long maxi = -1e18;
-		//long long mini = 1e18;
-		while(cuoi < n)
-		{
-			cuoi++;
-			auto x = get(dau, cuoi, 1, n, 1);
-			if(x.first - x.second > q) 
-			{
-				while(dau <= cuoi)
-				{
-					x = get(dau, cuoi, 1, n ,1);
-					if(x.first - x.second > q)
-					{
-						dau++;
-					}
-					else break;
-				}
-				ans = max(ans, cuoi - dau + 1);
+		ll ans = 0;
+		ll dau = 1;
+		ll cuoi = 1;
+		while(cuoi <= n){
+			while(dau <= cuoi){
+				pair < ll , ll > u = query(1, 1, n, dau, cuoi);
+				if(u.se - u.fi > q) dau ++;
+				else break;
 			}
-			else ans = max(ans, cuoi - dau + 1);
+			ans = max(ans, cuoi - dau + 1);
+			cuoi ++;
 		}
-		cout << ans << '\n';
+		cout << ans << "\n";
 	}
-	return 0;
 }

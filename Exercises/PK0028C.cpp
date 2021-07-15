@@ -67,3 +67,40 @@ int main(){
 		if(a[i] <= pos && pos <= b[i]) cout << i << '\n';
 	}
 }
+
+/*
+#include <bits/stdc++.h>
+using namespace std;
+int n;
+int a[1007], b[1007];
+int c[1000007];
+int main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    cin >> n;
+    memset(c, 0, sizeof(c));
+    c[0] = -1;
+    int pos = 0;
+    for(int i = 1; i <= n; i++) 
+        {
+            cin >> a[i] >> b[i];
+            c[a[i]]++;
+            c[b[i] + 1]--;
+        }
+    int sum = 0;
+    for(int i = 1; i <= 1e6; i++)
+    {
+        sum += c[i];
+        if(sum > c[pos]) pos = i;
+        c[i] = sum;
+    }
+    cout << c[pos] << '\n';
+    for(int i = 1; i <= n; i++)
+    {
+        if(a[i] <= pos && pos <= b[i]) cout << i << '\n';
+    }
+    return 0;
+
+}*/
