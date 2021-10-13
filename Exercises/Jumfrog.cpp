@@ -29,8 +29,8 @@ bool check(int x) {
 int main() {
 	ios::sync_with_stdio(0);
 	cin.tie(0);cout.tie(0);
-	freopen("Jumfrog.inp", "r", stdin);
-	freopen("Jumfrog.out", "w", stdout);
+	//freopen("Jumfrog.inp", "r", stdin);
+	//freopen("Jumfrog.out", "w", stdout);
 	cin >> n >> k;
 	for (int i = 1; i <= n; i++) cin >> a[i];
 	//check(5682);

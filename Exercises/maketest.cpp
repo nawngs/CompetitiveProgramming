@@ -2,8 +2,8 @@
 
 using namespace std;
 
-const int NTEST = 1; //so luong test
-const string TESTNAME = "sorttuple3"; // ten bai
+const int NTEST = 2; //so luong test
+const string TESTNAME = "xy"; // ten bai
 
 long long get_random(long long l, long long h) {
     return l + rand() % (h - l + 1);
@@ -23,9 +23,9 @@ void make_test(){
 		cout << x;
 	}
 	*/
-	int n = get_random(1, 10);
-	int k = get_random(1, n * n * n);
-	cout << n << " " << k << '\n';
+	int x = get_random(1, 1000);
+	int y = get_random(1, 100000);
+	cout << x << " " << y << '\n';
 }
 
 int main(){

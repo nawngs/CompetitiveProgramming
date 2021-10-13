@@ -12,8 +12,8 @@ pair < int, pair < int, int > > p[200005];
 vector < int > start[200005], last[200005], room;
 
 int main(){
-	freopen("room.inp", "r", stdin);
-	freopen("room.out", "w", stdout);
+	//freopen("room.inp", "r", stdin);
+	//freopen("room.out", "w", stdout);
 	cin >> n >> m;
 	for(int i = 1; i <= n; i++){
 		cin >> a[i].fi >> a[i].se;
