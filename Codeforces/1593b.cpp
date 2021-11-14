@@ -18,23 +18,29 @@ const ll INF = 1e18;
 const ll nmax = 1e7;
 const ll MOD = 1e9 + 7;
 
-ll x, y;
-
-ll calc(ll x, ll y) {
-	if (y <= x) return x - y;
-	if (y % 2 == 0) return min(y - x, 1 + calc(x, y / 2));
-	return min(y - x, min(2 + calc(x, (y - 1) / 2), 2 + calc(x, (y + 1) / 2)));
-}
+string n;
 
 void sol() {
-	cin >> x >> y;
-	cout << calc(x, y) << '\n';
+	cin >> n;
+	int ans = 1e9;
+	for (int i = 0; i < n.size(); i++) {
+		for (int j = i + 1; j < n.size(); j++) {
+			if (n[j] != '0' && n[j] != '5') continue;
+			if (n[j] == '5' && (n[i] == '2' || n[i] == '7')) {
+				ans = min(ans, j - i - 1 + (int) n.size() - j - 1);
+			}
+			if (n[j] == '0' && (n[i] == '0' || n[i] == '5')) {
+				ans = min(ans, j - i - 1 + (int) n.size() - j - 1);
+			}
+		}
+	}
+	cout << ans << '\n';
 }
 
 int main() {
 	fastflow;
-	//freopen("XY.INP", "r", stdin);
-	//freopen("XY.OUT", "w", stdout);		
-	int t = 2;
+	int t;
+	cin >> t;
 	while (t --) sol();
 }
+ 

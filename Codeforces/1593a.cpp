@@ -18,23 +18,16 @@ const ll INF = 1e18;
 const ll nmax = 1e7;
 const ll MOD = 1e9 + 7;
 
-ll x, y;
-
-ll calc(ll x, ll y) {
-	if (y <= x) return x - y;
-	if (y % 2 == 0) return min(y - x, 1 + calc(x, y / 2));
-	return min(y - x, min(2 + calc(x, (y - 1) / 2), 2 + calc(x, (y + 1) / 2)));
-}
+int a, b, c;
 
 void sol() {
-	cin >> x >> y;
-	cout << calc(x, y) << '\n';
+	cin >> a >> b >> c;
+	cout << max(0, max(b, c) + 1 - a) << " " << max(0, max(a, c) + 1 - b) << " " << max(0, max(a, b) + 1 - c) << '\n';
 }
 
 int main() {
 	fastflow;
-	//freopen("XY.INP", "r", stdin);
-	//freopen("XY.OUT", "w", stdout);		
-	int t = 2;
+	int t = 1;
+	cin >> t;
 	while (t --) sol();
 }

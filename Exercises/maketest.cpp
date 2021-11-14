@@ -2,8 +2,8 @@
 
 using namespace std;
 
-const int NTEST = 2; //so luong test
-const string TESTNAME = "xy"; // ten bai
+const int NTEST = 1; //so luong test
+const string TESTNAME = "CUTTING"; // ten bai
 
 long long get_random(long long l, long long h) {
     return l + rand() % (h - l + 1);
@@ -23,9 +23,13 @@ void make_test(){
 		cout << x;
 	}
 	*/
-	int x = get_random(1, 1000);
-	int y = get_random(1, 100000);
-	cout << x << " " << y << '\n';
+	int n = get_random(1, 100);
+	int m = get_random(100, 200);
+	cout << n << " " << m << '\n';
+	for (int i = 1; i <= n; i++) {
+		int x = get_random(1, 100);
+		cout << x << ' ';
+	}
 }
 
 int main(){

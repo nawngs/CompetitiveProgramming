@@ -2,8 +2,8 @@
 
 using namespace std;
 
-const int NTEST = 10; //so luong test
-const string TESTNAME = "binpack"; // ten bai
+const int NTEST = 1; //so luong test
+const string TESTNAME = "ktour"; // ten bai
 
 long long get_random(long long l, long long h) {
     return l + rand() % (h - l + 1);
@@ -23,12 +23,19 @@ void make_test(){
 		cout << x;
 	}
 	*/
-	int l = get_random(10, 30);
-	int n = get_random(5, 15);
-	cout << l << " " <<  n<< '\n';
+	int n = get_random(1, 10);
+	int y0 = get_random(1, 10);
+	cout << n << " "<< y0 << '\n';
 	for (int i = 1; i <= n; i++) {
-		int x = get_random(1, l);
-		cout << x << " ";
+		int x = get_random(1, 10);
+		cout << x << '\n';
+	}
+	int m = get_random(1, 10);
+	cout << m << '\n';
+	for (int i = 1; i <= m; i++) {
+		int x = get_random(1, 10);
+		int y = get_random(1, 10);
+		cout << x << " " << y << '\n';
 	}
 }
 
@@ -36,6 +43,7 @@ int main(){
 	string fout = TESTNAME + ".inp"; //fout = "TASK.INP"
 	freopen(fout.c_str(), "w", stdout); //tao file .INP co input
 	srand(time(NULL)); // tranh lap test
-	make_test();
+	//cout << NTEST << '\n';
+	for (int i = 1; i <= NTEST; i++) make_test();
 }
 
