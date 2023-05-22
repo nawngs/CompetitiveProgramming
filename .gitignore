@@ -5,3 +5,6 @@
 *.INP
 *.Inp
 *.inp
+*.in
+*.ans
+*.o

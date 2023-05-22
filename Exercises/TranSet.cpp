@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const string NAME = "";
+const string NAME = "transet";
 const string NAME2 = "TEST";
 const ll ESP = 1e-9;
 const ll INF = 1e18;
@@ -25,25 +25,38 @@ void fre() {
 	freopen(fout.c_str(), "w", stdout);
 }
 
-int x, k, n, dp[1005][1505];
+int n, k, s, dp[1005][55];
 
-vector < int > change[1005];
+vector < int > adj[1005];
+
 
 void sol() {
 	cin >> n;
 	for (int i = 1; i <= n; i++) {
 		cin >> k;
-		while (k --) {
+		for (int j = 1; j <= k; j++) {
+			int x;
 			cin >> x;
-			change[i].push_back(x);
+			adj[x].push_back(i);
+		}
+		dp[i][1] = k;
+	}
+	cin >> s;
+	for (int t = 1; t < s; t++) {
+		for (int i = 1; i <= n; i++) {
+			for (auto u : adj[i]) {
+				dp[u][t + 1] = max(dp[u][t + 1], dp[i][t] + dp[u][1] - 1);
+			}
 		}
 	}
-
+	int ans = 0;
+	for (int i = 1; i <= n; i++) ans = max(ans, dp[i][s]);
+	cout << ans;
 }
 
 int main() {
 	fast;
-	//fre();
+	fre();
 	int t = 1;
 	//cin >> t;
 	while (t --) sol();

@@ -2,110 +2,87 @@
 #include <bits/stdc++.h>
 
 #define ll long long
+#define ld long double
+#define fi first 
+#define se second
+#define pll pair < ll, ll >
+#define pii pair < int, int >
+#define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
 using namespace std;
 
-const ll MOD = 123456789; 
+const string NAME = "PRODUCT";
+const string NAME2 = "TEST";
+const ll ESP = 1e-9;
+const ll INF = 1e18;
+const ll nmax = 1e7;
+const ll MOD = 123456789;
 
-int t;
+void fre() {
+	string finp = NAME + ".inp";
+	string fout = NAME + ".out";
+	freopen(finp.c_str(), "r", stdin);
+	freopen(fout.c_str(), "w", stdout);
+}
 
-long long n, a[100005], k, duong[100005], am[100005];
+ll n, k, a[100003];
 
-void nhan (long long&x, long long y) {
-	x = (((x % MOD) * (y % MOD)) % MOD + MOD) % MOD;
+ll tich (ll x, ll y) {
+	return ((x * y) % MOD + MOD) % MOD;
 }
 
 void sol() {
 	cin >> n >> k;
-	ll cnt_am = 0, cnt_duong = 0;
-	for (int i = 1; i <= n; i++) {
-		cin >> a[i];
-		duong[i] = 0;
-		am[i] = 0;
-	}
-	
+	for (int i = 1; i <= n; i++) cin >> a[i];
 	sort(a + 1, a + n + 1);
-
-	if ((a[n] < 0 && k % 2 == 0) || (n == k)) {
-		long long ans = 1;
-		for (int i = 1; i <= k; i++) nhan(ans, a[i]);
-		cout << ans << '\n';
-		return ;
-	}
-
-	if ((a[n] <= 0 && k % 2 == 1) || (a[1] >= 0)) {
-		long long ans = 1;
-		for (int i = 1; i <= k; i++) nhan(ans, a[n - i + 1]);
-		cout << ans << '\n';
-		return ;
-	}
-
-	for (int i = 1; i <= n; i++) {
-		if (a[i] < 0) am[++ cnt_am] = a[i];
-		if (a[i] > 0) duong[++ cnt_duong] = a[i];
-	}
-
-	if (cnt_duong + cnt_am < k) {
-		cout << 0 << '\n';
-		return ;
-	}
-
-	sort(am + 1, am + cnt_am + 1);
-	sort(duong + 1, duong + cnt_duong + 1, greater < int >());
-
+	ll ans = 1;
 	if (k % 2 == 0) {
-		ll pos1, pos2;
-		if (k <= cnt_duong) {
-			pos1 = k;
-			pos2 = k - pos1;
+		ll l = 1;
+		ll r = n;
+		ans = 1;
+		while (k > 0) {
+			if (a[l] * a[l + 1] > a[r] * a[r - 1]) {
+				ans = (ans * tich(a[l], a[l + 1])) % MOD;
+				l += 2;
+			}
+			else {
+				ans = (ans * tich(a[r], a[r - 1])) % MOD;
+				r -= 2;
+			}
+			k -= 2;
 		}
-		else {
-			pos1 = cnt_duong - (cnt_duong % 2);
-			pos2 = k - pos1;
-		}
-		while(1) {
-			if (pos1 < 2 || pos2 > cnt_am - 2) break;
-			if (am[pos2 + 1] * am[pos2 + 2] < duong[pos1] * duong[pos1 - 1]) break;
-			pos2 += 2;
-			pos1 -= 2;
-		}
-		ll ans = 1;
-		//cout << pos1 << " " << pos2 << '\n';
-		for (int i = 1; i <= pos1; i++) nhan(ans, duong[i]);
-		for (int i = 1; i <= pos2; i++) nhan(ans, am[i]);
-		cout << ans << '\n';
-		return ;
 	}
+		else {
+			if (a[n] <= 0) {
+				ans = 1;
+				for (int i = n; i >= n - k + 1; i--) ans = tich(ans, a[i]);
+			}
+			else {
+				ans = a[n] % MOD;
+				ll l = 1;
+				ll r = n - 1;
+				k -= 1;
+				while (k > 0) {
+					if (a[l] * a[l + 1] > a[r] * a[r - 1]) {
+						ans = (ans * tich(a[l], a[l + 1])) % MOD;
+						l += 2;
+					}
+					else {
+						ans = (ans * tich(a[r], a[r - 1])) % MOD;
+						r -= 2;
+					}
+					k -= 2;
+				}
+			}
+		}
+		cout << ans << '\n';
 
-	if (k % 2 == 1) {
-		ll pos1, pos2;
-		if (k <= cnt_duong) {
-			pos1 = k;
-			pos2 = k - pos1;
-		}
-		else {
-			pos1 = cnt_duong - (cnt_duong % 2 == 0);
-			pos2 = k - pos1;
-		}
-		while(1) {
-			if (pos1 < 2 || pos2 > cnt_am - 2) break;
-			if (am[pos2 + 1] * am[pos2 + 2] < duong[pos1] * duong[pos1 - 1]) break;
-			pos2 += 2;
-			pos1 -= 2;
-		}
-		ll ans = 1;
-		for (int i = 1; i <= pos1; i++) nhan(ans, duong[i]);
-		for (int i = 1; i <= pos2; i++) nhan(ans, am[i]);
-		cout << ans << '\n';
-		return ;
-	}
 }
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);cout.tie(0);
-	freopen("product.Inp", "r", stdin);
-	freopen("product.Out", "w", stdout);
+	fast;
+	fre();
+	int t = 1;
 	cin >> t;
 	while (t --) sol();
 }

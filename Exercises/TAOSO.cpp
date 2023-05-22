@@ -8,14 +8,12 @@ string s[1000005], a[12];
 int main(){
 	ios::sync_with_stdio(0);
 	cin.tie(0);cout.tie(0);
-	freopen("TAOSO.INP", "r", stdin);
-	freopen("TAOSO.OUT", "w", stdout);
+	//freopen("TAOSO.INP", "r", stdin);
+	//freopen("TAOSO.OUT", "w", stdout);
 	cin >> k >> n;
-	//int dem = 0;
 	for(int i = 1; i <= k; i++) cin >> a[i];
 	sort(a + 1, a + k + 1);
 	if(k == 1){
-		//string ans = "";
 		for(int i = 1; i <= n; i++){
 			cout << a[1];
 		}

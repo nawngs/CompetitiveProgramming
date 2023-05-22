@@ -11,7 +11,6 @@ pair < int, int > a[100005];
 pair < int, pair < int, int > > p[200005];
 
 int query(int node, int l, int r, int u, int v){
-	//cout << l << " " << r << " " << it[node] << '\n';
 	if(v < l || r < u || l > r) return 0;
 	if(u <= l && r <= v) return it[node];
 	int mid = (l + r) / 2;
@@ -19,7 +18,6 @@ int query(int node, int l, int r, int u, int v){
 }
 
 void update(int node, int l, int r, int pos, int val){
-	//cout << pos << " " << val << '\n';
 	if(pos < l || pos > r || l > r) return ;
 	it[node] = max(it[node], val);
 	if(l == r) return ;
@@ -59,4 +57,3 @@ int main(){
 	}
 	cout << ans;
 }
-

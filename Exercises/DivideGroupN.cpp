@@ -49,7 +49,7 @@ void sol() {
 			dp[i + 1][abs(j - i - 1)] = (dp[i + 1][abs(j - i - 1)] + dp[i][j]) % MOD;
 		}
 	}
-	cout << (1ll * dp[n][0] * mu(2, MOD - 2)) % MOD << '\n';
+	cout << (1ll * dp[n][0] / 2) % MOD << '\n';
 }	
 
 int main() {
@@ -59,3 +59,4 @@ int main() {
 	//cin >> t;
 	while (t --) sol();
 }
+	

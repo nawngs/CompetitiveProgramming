@@ -4,18 +4,15 @@ using namespace std;
 
 const int NTEST = 100000;
 
-string s[NTEST + 5], str[NTEST + 5];
+int n, a[10005], k, b[10006];
 
 int main(){
 	freopen("check_test.inp", "r", stdin);
-	for(int i = 1; i <= NTEST; i++) cin >> s[i];
-	for(int i = 1; i <= NTEST; i++) cin >> str[i];
-	for(int i = 1; i <= NTEST; i++){
-		if(s[i] != str[i]){
-			cout << "sai o " << i << '\n';
-			//cout << "NGU NHU CHO" << '\n';
-			return 0;
-		}
+	for (int i = 1; i <= 500; i++) cin >> a[i];
+	for (int i = 1; i <= 500; i++) {
+		cin >> b[i];
+		if (a[i] != b[i]) cout << a[i] << " " << b[i] << '\n';
 	}
-	cout << "VAN NGU" << '\n'; 
+
+	cout << "OK" << '\n';
 }

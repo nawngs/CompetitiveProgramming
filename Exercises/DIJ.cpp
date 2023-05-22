@@ -1,13 +1,30 @@
+#pragma GCC optimize ("O2")
 #include <bits/stdc++.h>
 
 #define ll long long
-#define pll pair < ll, ll > 
-#define fi first
+#define ld long double
+#define fi first 
 #define se second
+#define pll pair < ll, ll >
+#define pii pair < int, int >
+#define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
 using namespace std;
 
-const ll INF = 1E18 + 711;
+const string NAME = "DIJ";
+const string NAME2 = "TEST";
+const ll ESP = 1e-9;
+const ll INF = 1e18 + 7;
+const ll nmax = 2e5;
+const ll MOD = 1e9 + 7;
+const ll base = 2309;
+
+void fre() {
+	string finp = NAME + ".inp";
+	string fout = NAME + ".out";
+	freopen(finp.c_str(), "r", stdin);
+	freopen(fout.c_str(), "w", stdout);
+}
 
 ll n, m, q, d[411][411], temp[411][411];
 
@@ -58,10 +75,8 @@ void create() {
 }
 
 int main() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);cout.tie(0);
-	freopen("DIJ.INP", "r", stdin);
-	freopen("DIJ.OUT", "w", stdout);
+	fast;
+	//fre();
 	cin >> n >> m >> q;
 	for (int i = 1; i <= m; i++) {
 		ll u, v, c;

@@ -1,24 +1,43 @@
+#pragma GCC optimize ("O2")
 #include <bits/stdc++.h>
-#define fi first
+
+#define ll long long
+#define ld long double
+#define fi first 
 #define se second
+#define pll pair < ll, ll >
+#define pii pair < int, int >
+#define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
 using namespace std;
 
-int n, p;
-pair < int, int > a[300005];
+const string NAME = "inedg";
+const string NAME2 = "TEST";
+const ld ESP = 1e-9;
+const ll INF = 1e9 + 7;
+const ll LINF = 1E18;
+const ll nmax = 2e5;
+const ll MOD = 1e9 + 7;
+const ll base = 2309;
 
-map < int, vector < int > > map_x;
-map < int, vector < int > > map_y;
-
-bool cmp(pair < int, int > x, pair < int, int > y){
-	return (x.fi < y.fi) || (x.fi == y.fi && x.se < y.se);
+void fre() {
+	string finp = NAME + ".inp";
+	string fout = NAME + ".out";
+	freopen(finp.c_str(), "r", stdin);
+	freopen(fout.c_str(), "w", stdout);
 }
 
-bs1(int val, vector < int > f){
+int n;
+
+map < int, vector < int > > fx;
+
+map < int, vector < int > > fy;
+
+int bs1(int x, vector < int > f) {
 	int l = 0, r = f.size() - 1, mid, ans = -1;
-	while(l <= r){
+	while (l <= r) {
 		mid = (l + r) / 2;
-		if(f[mid] >= val){
+		if (f[mid] >= x) {
 			ans = mid;
 			r = mid - 1;
 		}
@@ -27,57 +46,54 @@ bs1(int val, vector < int > f){
 	return ans;
 }
 
-bs2(int val, vector < int > f){
+int bs2(int x, vector < int > f) {
 	int l = 0, r = f.size() - 1, mid, ans = -1;
-	while(l <= r){
+	while (l <= r) {
 		mid = (l + r) / 2;
-		if(f[mid] <= val){
+		if (f[mid] <= x) {
 			ans = mid;
 			l = mid + 1;
 		}
 		else r = mid - 1;
-	}
+	} 
 	return ans;
 }
 
-int main(){	
-	ios::sync_with_stdio(0);
-	cin.tie(0);cout.tie(0);
-	freopen("InEdg.inp", "r", stdin);
-	freopen("InEdg.out", "w", stdout);
+int main() {
+	fast;
+	fre();
 	cin >> n;
-	for(int i = 1; i <= n; i++) cin >> a[i].fi >> a[i].se;
-	sort(a + 1, a + n + 1, cmp);
-	for(int i = 1; i <= n; i++){
-		map_x[a[i].fi].push_back(a[i].se);
-		map_y[a[i].se].push_back(a[i].fi);
+	for (int i = 1; i <= n; i++) {
+		pii a;
+		cin >> a.fi >> a.se;
+		fx[a.fi].push_back(a.se);
+		fy[a.se].push_back(a.fi);
 	}
-	cin >> p;
-	//for(auto v : map_x[4]) cout << v << '\n';
-	while( p --){
+	for (auto &x : fx) 
+		sort(x.se.begin(), x.se.end());
+	for (auto &x : fy)
+		sort(x.se.begin(), x.se.end());
+	int p; cin >> p;
+	while (p--) {
 		int x1, y1, x2, y2;
 		cin >> x1 >> y1 >> x2 >> y2;
-		int temp1, temp2, ans = 0;
-		temp1 = bs1(y1, map_x[x1]);
-		temp2 = bs2(y2, map_x[x1]);
-		//cout << temp1 << " " << temp2 << '\n';
-		if(temp1 != -1 && temp2 != -1 && temp2 >= temp1) ans += temp2 - temp1 + 1;
-		//cout << ans << '\n';
-		temp1 = bs1(y1, map_x[x2]);
-		temp2 = bs2(y2, map_x[x2]);
-		if(temp1 != -1 && temp2 != -1 && temp2 >= temp1) ans += temp2 - temp1 + 1;
-		//cout << temp1 << " " << temp2 << '\n';
-		
-		temp1 = bs1(x1 + 1, map_y[y1]);
-		temp2 = bs2(x2 - 1, map_y[y1]);
-		if(temp1 != -1 && temp2 != -1 && temp2 >= temp1) ans += temp2 - temp1 + 1;
-		//cout << temp1 << " " << temp2 << '\n';
-
-		temp1 = bs1(x1 + 1, map_y[y2]);
-		temp2 = bs2(x2 - 1, map_y[y2]);
-		if(temp1 != -1 && temp2 != -1 && temp2 >= temp1) ans += temp2 - temp1 + 1;
-		//cout << temp1 << " " << temp2 << '\n';
-
-		cout << ans << '\n';
+		int tmp1 = 0, tmp2 = 0, res = 0;
+		tmp1 = bs1(y1, fx[x1]);
+		tmp2 = bs2(y2, fx[x1]);
+		if (tmp1 != -1 && tmp2 != -1 && tmp2 >= tmp1) 
+			res += tmp2 - tmp1 + 1;
+		tmp1 = bs1(y1, fx[x2]);
+		tmp2 = bs2(y2, fx[x2]);
+		if (tmp1 != -1 && tmp2 != -1 && tmp2 >= tmp1) 
+			res += tmp2 - tmp1 + 1;
+		tmp1 = bs1(x1 + 1, fy[y1]);
+		tmp2 = bs2(x2 - 1, fy[y1]);
+		if (tmp1 != -1 && tmp2 != -1 && tmp2 >= tmp1) 
+			res += tmp2 - tmp1 + 1;
+		tmp1 = bs1(x1 + 1, fy[y2]);
+		tmp2 = bs2(x2 - 1, fy[y2]);
+		if (tmp1 != -1 && tmp2 != -1 && tmp2 >= tmp1) 
+			res += tmp2 - tmp1 + 1;
+		cout << res << '\n';
 	}
 }

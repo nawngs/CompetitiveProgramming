@@ -3,7 +3,7 @@
 using namespace std;
 
 const int NTEST = 1; //so luong test
-const string TESTNAME = "CUTTING"; // ten bai
+const string TESTNAME = "etrue"; // ten bai
 
 long long get_random(long long l, long long h) {
     return l + rand() % (h - l + 1);
@@ -23,20 +23,17 @@ void make_test(){
 		cout << x;
 	}
 	*/
-	int n = get_random(1, 100);
-	int m = get_random(100, 200);
-	cout << n << " " << m << '\n';
-	for (int i = 1; i <= n; i++) {
-		int x = get_random(1, 100);
-		cout << x << ' ';
-	}
+	for (int i = 1; i <= 10; i++) cout << '(';
+	cout << 12;
+	for (int i = 1; i <= 10; i++) cout << ')';
+	
 }
 
 int main(){
 	string fout = TESTNAME + ".inp"; //fout = "TASK.INP"
 	freopen(fout.c_str(), "w", stdout); //tao file .INP co input
 	srand(time(NULL)); // tranh lap test
-	//cout << NTEST << '\n';
+	//out << NTEST << '\n';
 	for(int test = 1; test <= NTEST; test ++){
 		make_test();
 	}

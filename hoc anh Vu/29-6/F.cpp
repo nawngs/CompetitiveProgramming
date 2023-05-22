@@ -1,0 +1,60 @@
+#pragma GCC optimize ("O2")
+#include <bits/stdc++.h>
+
+#define ll long long
+#define ld long double
+#define fi first 
+#define se second
+#define pll pair < ll, ll >
+#define pii pair < int, int >
+#define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+using namespace std;
+
+const string NAME = "";
+const string NAME2 = "TEST";
+const ll ESP = 1e-9;
+const ll INF = 1e18;
+const ll nmax = 2e5;
+const ll MOD = 1e9 + 7;
+const ll base = 2309;
+
+void fre() {
+	string finp = NAME + ".inp";
+	string fout = NAME + ".out";
+	freopen(finp.c_str(), "r", stdin);
+	freopen(fout.c_str(), "w", stdout);
+}
+
+int n, k, dp[10003][10003], temp;
+
+void trace(int i, int j) {
+	if (i + j == n - 1) {
+		cout << j << '\n';
+		return ;
+	}
+	if (dp[i][j] % 2 == 0) trace(i + 1, j);
+	else trace(i, j + 1);
+}
+
+void sol() {
+	cin >> n >> k;
+	dp[0][0] = k - 1;
+	for (int i = 0; i < n; ++i)
+		for (int j = 0; i + j < n; ++j) {
+			if (i + j == 0) continue;
+			temp = 0;
+			if (i > 0) temp += (dp[i - 1][j] + 1) / 2;
+			if (j > 0) temp += (dp[i][j - 1]) / 2;
+			dp[i][j] = temp;
+		}
+	trace(0, 0);
+}
+
+int main() {
+	fast;
+	//fre();
+	int t = 1;
+	cin >> t;
+	while (t --) sol();
+}
