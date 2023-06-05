@@ -88,6 +88,6 @@ int main() {
 	//fre();
 	int t = 1;
 	//cin >> t;
-	while (cin >> n && n!= 0) sol();
+	while (cin >> n && n != 0) sol();
 	
 }
