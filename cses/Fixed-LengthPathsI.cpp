@@ -11,12 +11,12 @@
 
 using namespace std;
 
-const string NAME = "";
+const string NAME = "tree-distance";
 const string NAME2 = "TEST";
 const ld ESP = 1e-9;
 const ll INF = 1e9 + 7;
 const ll LINF = 1E18;
-const ll nmax = 2e5;
+const ll NMAX = 3e5;
 const ll MOD = 1e9 + 7;
 const ll base = 2309;
 
@@ -27,11 +27,11 @@ void fre() {
 	freopen(fout.c_str(), "w", stdout);
 }
 
-ll n, k, cnt_child[200003], res = 0, cnt[200003];
+ll n, k, cnt_child[NMAX + 3], res = 0, cnt[NMAX + 3];
 
-bool used[200003];
+bool used[NMAX + 3];
 
-vector < int > adj[200003];
+vector < int > adj[NMAX + 3];
 
 int dfs(int u, int e = 0) {
 	cnt_child[u] = 1;
@@ -79,8 +79,9 @@ void centroid(int u = 1) {
 }
 
 int main() {
-	//fast;
-	cin >> n >> k;
+	fast;
+	fre();
+	cin >> n >> n >> k;
 	for (int i = 1; i < n; i++) {
 		int u, v;
 		cin >> u >> v;

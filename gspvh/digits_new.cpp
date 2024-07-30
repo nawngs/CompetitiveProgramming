@@ -1,4 +1,3 @@
-#pragma GCC optimize ("O2")
 #include <bits/stdc++.h>
 
 #define ll long long
@@ -30,7 +29,7 @@ ll a, b, c;
 
 int main() {
 	fast;
-	//fre();
+	fre();
 	cin >> a >> b >> c;
 	if (a == 0 && c == 1) {
 		cout << a << '\n';

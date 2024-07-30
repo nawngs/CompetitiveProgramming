@@ -25,7 +25,7 @@ void fre() {
 	freopen(fout.c_str(), "w", stdout);
 }
 
-int n, dp[402][402];
+int n, dp[502][502];
 
 string s;
 
@@ -48,7 +48,7 @@ void sol() {
 
 int main() {
 	fast;
-	fre();
+	//fre();
 	int t = 1;
 	cin >> t;
 	while (t --) sol();

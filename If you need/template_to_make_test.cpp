@@ -1,36 +1,25 @@
 #include <bits/stdc++.h>
-
 using namespace std;
+#define inp cout
+using ll = long long;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-const int NTEST = 10; //so luong test
-const string TESTNAME = "TASK"; // ten bai
-
-long long get_random(long long l, long long h) {
-    return l + rand() % (h - l + 1);
+ll get(ll x, ll y) {
+    return x + rng() % (y - x + 1);
 }
 
-// get random(l , r) lay 1 so bat ki tu l den r
-
-void make_test(){
-	/*
-	nhap input
-	vd tao inp co n va day a[n]
-	code:
-	int n = get_random(l, r);
-	for(int i = 1; i <= n; i++){
-		int x;
-		x = get_random(l, r);
-		cout << x;
-	}
-	*/
+void gen() {
+	// code sinh test
 }
 
-int main(){
-	string fout = TESTNAME + ".inp"; //fout = "TASK.INP"
-	freopen(fout.c_str(), "w", stdout); //tao file .INP co input
-	srand(time(NULL)); // tranh lap test
-	for(int test; test <= NTEST; test ++){
-		make_test();
-	}
+int main() {
+    ios::sync_with_stdio(0);
+    cout.tie(0);
+    for (int i = 1; i <= 50; i++) { // so test
+        string cur_name = "sex" + to_string(i) + ".inp"; // ten bai trong dau ""
+        ofstream cout(cur_name);
+		gen();
+		cout << 123 << '\n';
+		// ghi test ra
+    }
 }
-

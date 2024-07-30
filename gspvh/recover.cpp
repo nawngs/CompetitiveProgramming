@@ -1,3 +1,5 @@
+#pragma GCC optimize("O3,unroll-loops") //hehehe
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 #include <bits/stdc++.h>
 
 #define name "recover"
@@ -18,14 +20,14 @@ using namespace std;
 const ld EPS = 1e-9;
 const int INF = 1e9 + 7;
 const ll LINF = 1E18;
-const int NMAX = 524300;
+const int NMAX = 524288;
 const ll MOD = 1e9 + 7;
 const ll BASE = 2309;
 
 int n, nxt[NMAX + 3], id[NMAX + 3], pos[4 * NMAX + 3], MxNode = 0;
 
 vector < int > adj[4 * NMAX + 3]; 
-//canh tu node co max be hon den node co max lon
+//canh tu node co max be hon den node co max lon	
 
 void build(int node, int l, int r) {
 	if (l == r) {
@@ -85,10 +87,7 @@ void sol() {
 	for (int i = 1; i <= n; i++) {
 		if (nxt[i] == -1) continue;
 		if (i + 1 <= nxt[i] - 1) add_edge(1, 1, n, i + 1, nxt[i] - 1, id[i]); 
-		if (nxt[i] != n + 1) {
-			adj[id[i]].pb(id[nxt[i]]);
-			if (i + 1 <= nxt[i] - 1) add_edge(1, 1, n, i + 1, nxt[i] - 1, id[nxt[i]]);
-		}
+		if (nxt[i] != n + 1) adj[id[i]].pb(id[nxt[i]]);
 	}
 	topo.clear();
 	for (int i = 1; i <= 4 * n; i++) {
@@ -120,4 +119,4 @@ int main() {
 	}
 	int O; cin >> O;
 	int t; cin >> t; while (t --) sol();
-} //wtf tle 1 test???
+} 

@@ -88,7 +88,7 @@ signed main() {
 	int res = 0;
 	for (int i = 1; i <= n; i++) {
 		int val = query(a[i].y) + (a[i].x * a[i].y) - a[i].a;
-		//cout << i << " " << val << " " << query(a[i].y) << '\n';
+		cout << i << " " << val << '\n';
 		res = max(res, val);
 		Insert({-a[i].x, val}); 
 	}

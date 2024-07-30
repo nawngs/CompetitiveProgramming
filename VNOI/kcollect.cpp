@@ -41,6 +41,7 @@ void dfs(int u) {
 			}
 			st.pop();
 		}
+		cout << scc << " " << sum << '\n';
 		sum_scc[scc] = sum;
 	}
 }
@@ -52,6 +53,7 @@ void dfs2(int u) {
 		dfs2(v);
 		dp[u] = max(dp[u], dp[v] + sum_scc[u]);
 	}
+	// cout << u << " " << dp[u] << '\n';
 }
 
 bool valid(int i, int j) {

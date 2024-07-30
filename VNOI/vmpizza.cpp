@@ -50,36 +50,16 @@ ll query(ll node, ll l, ll r, ll pos) {
 	return res;
 }
 
-void update(ll node, ll l, ll r, ll u, ll v, line val) {
-	if (v < l || r < u) return ;
-	if (u <= l && r <= v) {
-		if (get(it[node], l) >= get(val, l) && get(it[node], r) >= get(val, r)) return ;
-		if (get(it[node], l) <= get(val, l) && get(it[node], r) <= get(val, l)) {
-			it[node] = val;
-			return ;
-		}
-		ll mid = (l + r) / 2;
-		if (get(it[node], l) <= get(val, l) && get(it[node], mid) <= get(val, mid)) {
-			update(node * 2 + 1, mid + 1, r, u, v, it[node]);
-			it[node] = val;
-			return ;
-		}
-		if (get(it[node], l) >= get(val, l) && get(it[node], mid) >= get(val, mid)) {
-			update(node * 2 + 1, mid + 1, r, u, v, val);
-			return ;
-		}
-		if (get(it[node], r) <= get(val, r) && get(it[node], mid + 1) <= get(val, mid + 1)) {
-			update(node * 2, l, mid, u, v, it[node]);
-			it[node] = val;
-			return ;
-		}
-		if (get(it[node], r) >= get(val, r) && get(it[node], mid + 1) >= get(val, mid + 1)) {
-			update(node * 2, l, mid, u, v, val);
-			return ;
-		}
-	}
-	update(node * 2, l, (l + r) / 2, u, v, val);
-	update(node * 2 + 1, (l + r) / 2 + 1, r, u, v, val);
+void update(ll node, ll l, ll r, line val) {
+	int m = (l + r) / 2;
+	bool mid = get(val, m) > get(it[node], m);
+	bool lef = get(val, l) > get(it[node], l);
+	if (mid) swap(it[node], val);
+	if (l == r) return ;
+	if (lef != mid) update(node * 2, l, m, val);
+	else update(node * 2 + 1, m + 1, r, val);
+	// update(node * 2, l, (l + r) / 2, u, v, val);
+	// update(node * 2 + 1, (l + r) / 2 + 1, r, u, v, val);
 }
  
 void sol() {
@@ -98,7 +78,7 @@ void sol() {
 		line temp;
 		temp.a = sb[i];
 		temp.b = dp[i] - sa[i] - sbt[i];
-		update(1, 1, nmax, 1, nmax, temp);
+		update(1, 1, nmax, temp);
 		//cout << dp[i] << '\n';
 	}
 	cout << dp[n];

@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
- 
-#define name "rally"
-#define test "test"
+
+#define name ""
 #define ll long long
 #define ld long double
 #define fi first 
@@ -9,107 +8,91 @@
 #define pll pair < ll, ll >
 #define pii pair < int, int >
 #define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-#define sz(x) ((int)(x).size())
+#define SZE(x) ((int)(x).size())
 #define pb push_back
 #define mp make_pair
- 
+#define lnode node * 2, l, (l + r) / 2
+#define rnode node * 2 + 1, (l + r) / 2 + 1, r
+
 using namespace std;
- 
+
 const ld EPS = 1e-9;
 const int INF = 1e9 + 7;
 const ll LINF = 1E18;
-const int NMAX = 2e5;
+const int NMAX = 5e5;
 const ll MOD = 1e9 + 7;
 const ll BASE = 2309;
- 
-int n, m, dp[500003], f2[500003];
- 
-pii f[500003], g[500003];
- 
-vector < int > adj[500003], adj_rev[500003];
- 
-int maxl = 0, cnt = 0, res, ans, pos;
- 
-mt19937 rd(chrono::steady_clock::now().time_since_epoch().count());
- 
-bool vs[500003];
- 
+
+int n, m, vs[NMAX + 3], ID[NMAX + 3], f[NMAX + 3], g[NMAX + 3], it[6 * NMAX + 3], lazy[6 * NMAX + 3];
+
+vector < int > G[NMAX + 3], Grev[NMAX + 3], topo;
+
+vector < pii > edges;
+
 void dfs(int u) {
-	vs[u] = 1; dp[u] = max(dp[u], f2[u] + g[u].fi - 1);
-	//cout << u << " " << g[u].fi << " " << f2[u] << '\n';
-	for (auto v : adj[u]) 
-		if (!vs[v]) dfs(v);
-}
- 
-void dfs1(int u) {
-	f[u] = {1, 1}, f2[u] = 0;
-	for (auto v : adj[u]) {
-		if (f[v].fi == -INF) dfs1(v);
-		if (f[u].fi < f[v].fi + 1) {
-			f2[u] = f[u].fi;
-			f[u] = f[v];
-			f[u].fi += 1;
-		}
-		else if (f[u].fi == f[v].fi + 1) f[u].se += f[v].se;
-		else f2[u] = max(f2[u], f[v].fi + 1);
+	vs[u] = 1;
+	for (auto v : G[u]) {
+		assert(vs[v] != 1);
+		if (vs[v]) continue;
+		dfs(v);
 	}
+	topo.pb(u);
+	vs[u] = 2;
 }
- 
-void dfs2(int u) {
-	for (auto v : adj_rev[u]) {
-		if (g[v].fi == -INF) dfs2(v);
-		if (g[u].fi < g[v].fi + 1) {
-			g[u] = g[v];
-			g[u].fi += 1;
-		}
-		else if (g[u].fi == g[v].fi + 1) g[u].se += g[v].se;
+
+
+void update(int node, int l, int r, int u, int v, int val) {
+	if (v < l || r < u) return ;
+	if (u <= l && r <= v) {
+		lazy[node] = max(lazy[node], val);
+		return ;
 	}
-	if (g[u].fi == -INF) g[u] = {1, 1};
+	update(lnode, u, v, val); update(rnode, u, v, val);
 }
- 
-void dfs_find_res(int u, int e, int len) {
-	ll val = max(dp[e], max(len - 1, maxl - len));
-	if (f[u].se * g[u].se == cnt) {
-		//if (u == 4) cout << e << " " << dp[e] << " " << len - 1 << " " << maxl - len << '\n';
-		if (res > val) {
-			res = val;
-			ans = u;
-		}
-	}
-	for (auto v : adj[u]) {
-		if (len + f[v].fi == maxl) {
-			dfs_find_res(v, u, len + 1);
-			break;
-		}
-	}
+
+int query(int node, int l, int r, int u) {
+	if (l == r) return lazy[node];
+	int mid = (l + r) / 2;
+	if (u <= mid) return max(lazy[node], query(lnode, u));
+	else return max(lazy[node], query(rnode, u));
 }
- 
+
 int main() {
 	fast;
-	/*if(fopen(name".inp", "r")) {
+	if(fopen(name".inp", "r")) {
 		freopen(name".inp", "r", stdin);
 		freopen(name".out", "w", stdout);
-	}*/
+	}
 	//int t; cin >> t; while (t --) sol();
 	cin >> n >> m;
 	for (int i = 1; i <= m; i++) {
 		int u, v; cin >> u >> v;
-		adj[u].push_back(v);
-		adj_rev[v].push_back(u);
-	}
-	for (int i = 1; i <= n; i++)
-		f[i].fi = g[i].fi = -INF;
-	for (int i = 1; i <= n; i++) {
-		if (f[i].fi == -INF) dfs1(i);
-		if (g[i].fi == -INF) dfs2(i);
-		if (maxl < f[i].fi) {
-			maxl = f[i].fi, cnt = f[i].se;
-			pos = i;
-		}
-		else if (maxl == f[i].fi) cnt += f[i].se;
+		edges.pb({u, v});
+		G[u].pb(v); Grev[v].pb(u);
 	}
 	for (int i = 1; i <= n; i++) if (!vs[i]) dfs(i);
-	res = maxl, ans = 1;
-	dfs_find_res(pos, 0, 1);
-	cout << ans << " " << res - 1;
+	reverse(topo.begin(), topo.end());
+	for (int i = 0; i < n; i++) ID[topo[i]] = i;
+	for (int i = 0; i < n; i++) {
+		int u = topo[i];
+		for (auto v : G[u]) f[ID[v]] = max(f[ID[v]], f[i] + 1);
+	}
+	for (int i = n - 1; i >= 0; i--) {
+		int u = topo[i];
+		for (auto v : Grev[u]) g[ID[v]] = max(g[ID[v]], g[i] + 1);
+	}
+	// for (int i = 0; i < n; i++) cout << topo[i] << " " << f[i] << " " << g[i] << '\n';
+	for (auto u : edges) {
+		// cout << u.fi << " " << u.se << " " << ID[u.fi] + 1 << " " << ID[u.se] - 1 << " " << f[ID[u.fi]] + g[ID[u.se]] + 1 << '\n';
+		update(1, 0, n - 1, ID[u.fi] + 1, ID[u.se] - 1, f[ID[u.fi]] + g[ID[u.se]] + 1);
+	}
+	for (int i = n - 2; i >= 0; i--) g[i] = max(g[i], g[i + 1]);
+	pii res = {INF, INF};
+	for (int i = 0; i < n; i++) {
+		if (i) f[i] = max(f[i], f[i - 1]);
+		pii val = {max({query(1, 0, n - 1, i), (i ? f[i - 1] : 0), g[i + 1]}), topo[i]};
+		// cout << topo[i] << " " << query(1, 0, n - 1, i, i) << " " << (i ? f[i - 1] : 0) << " " << g[i + 1] << '\n';
+		res = min(res, val);
+	}
+	cout << res.se << " " << res.fi << '\n';
 }

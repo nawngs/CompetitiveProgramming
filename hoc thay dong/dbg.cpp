@@ -40,7 +40,6 @@ int main() {
 	sort(a + 1, a + n + 1, [&](Food &x, Food &y) {
 		return x.w * y.t > y.w * x.t;
 	});
-	//for (int i = 1; i <= n; i++) cout << a[i].t << " " << a[i].w << '\n';
 	for (int i = 1; i <= n; i++) 
 		for (int j = A; j <= B; j++) dp[i][j] = INF;
 	int s = 0;	
@@ -51,7 +50,6 @@ int main() {
 				dp[i][j - a[i].t] = min(dp[i][j - a[i].t], dp[i - 1][j] + abs(D - j) * a[i].w);
 			if (j + s <= B) dp[i][j] = min(dp[i][j], dp[i - 1][j] + abs(j + s - D) * a[i].w);
 		}
-		//for (int j = A; j <= B; j++) cout << i << " " << j << " " << dp[i][j] << '\n';
 	}
 	int ans = INF;
 	for (int j = A; j <= B; j++) ans = min(ans, dp[n][j]);

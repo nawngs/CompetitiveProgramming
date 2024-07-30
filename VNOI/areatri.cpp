@@ -1,119 +1,52 @@
-#pragma GCC optimize ("O2")
 #include <bits/stdc++.h>
 
 #define ll long long
-#define ld long double
-#define fi first 
-#define se second
-#define pll pair < ll, ll >
-#define pii pair < int, int >
-#define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
 
 using namespace std;
 
-const string NAME = "";
-const string NAME2 = "TEST";
-const ld ESP = 1e-9;
-const ll INF = 1e9 + 7;
-const ll LINF = 1E18;
-const ll nmax = 2e5;
-const ll MOD = 1e9 + 7;
-const ll base = 2309;
-
-void fre() {
-    string finp = NAME + ".inp";
-    string fout = NAME + ".out";
-    freopen(finp.c_str(), "r", stdin);
-    freopen(fout.c_str(), "w", stdout);
-}
-
-struct point {
-    ll x, y;
-
-    point(ll x = 0, ll y = 0): x(x), y(y) {}
-
-    point& operator += (const point &o) {
-        x += o.x; y += o.y; return *this;
-    }
-
-    point& operator -= (const point &o) {
-        x -= o.x; y -= o.y; return *this;
-    }
-
-    point& operator *= (const ll &k) {
-        x *= k; y *= k; return *this;
-    }
-
-    bool operator != (const point &o) const {
-        return x != o.x || y != o.y;
-    }
-
-    bool operator == (const point &o) const {
-        return x == o.x && y == o.y;
-    }
-
-    point operator + (const point &o) const {
-        return point(*this) += o;
-    }
-
-    point operator - (const point &o) const {
-        return point(*this) -= o;
-    }
-
-    point operator * (const ll &k) const {
-        return point(*this) *= k;
-    }
+struct Point {
+	ll x, y;
+	Point(ll x = 0, ll y = 0) : x(x), y(y) {}
+	Point& operator -= (const Point &oth) {
+		x -= oth.x; y -= oth.y;
+		return *this;
+	}
+	Point& operator += (const Point &oth) {
+		x += oth.x; y += oth.y;
+		return *this;
+	}
+	Point operator - (const Point &oth) const {
+		return Point(*this) -= oth;
+	}
+	Point operator + (const Point &oth) const {
+		return Point(*this) += oth;
+	}
 };
 
-ll dot(const point &a, const point &b) {
-    return a.x * b.x + a.y * b.y;
+ll dot(const Point &x, const Point &y) {
+	return x.x * y.x + x.y * y.y;
 }
 
-ll cross(const point &a, const point &b) {
-    return a.x * b.y - a.y * b.x;
+ll cross(const Point &x, const Point &y) {
+	return x.x * y.y - x.y * y.x;
 }
 
-ll orient(const point &a,
-const point &b, const point &c) {
-    return cross(b - a, c - b);
+ll orient(const Point &a, const Point &b, const Point &c) {
+	return cross(b - a, c - a);
 }
 
-ll norm(const point &p) {
-    return dot(p, p);
-}
+const int N = 1000;
 
-istream& operator >> (istream &is, point &p) {
-    return is >> p.x >> p.y;
-}
+ll res = 0, n;
 
-ostream& operator << (ostream &os, const point &p) {
-    return os << p.x << ' ' << p.y;
-}
-
-point p;
-
-vector < point > a, b;
-
-int n;
-
-bool cmp(point const &x, point const &y) {
-    if (x.y * y.y <= 0) {
-        if (x.y == y.y) return x.x < y.x;
-        return x.y < y.y;
-    }
-    return cross(x - p, y - p) > 0;
-}
+Point a[N + 3], b[N + 3];
 
 void solve(int id) {
-    p = a[id];
-    for (int i = 0; i < n; i++) b[i] = a[i] - p;
-    sort(b.begin(), b.end(), cmp);
 }
 
 int main() {
-    cin >> n;
-    a.resize(n);
-    b.resize(n);
-    for (auto &x : a) cin >> x;
-    for (int i = 0; i < n; i++) solve(i);
+	cin >> n;
+	for (int i = 1; i <= n; i++) cin >> a[i].x >> a[i].y;
+	for (int i = 1; i <= n; i++) solve(i);
+	cout << res;
 }

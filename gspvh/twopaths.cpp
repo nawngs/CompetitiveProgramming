@@ -66,7 +66,8 @@ void Dfs_Second(int u) {
 		if (f[v] != temp1.back()) g[v] = max(g[v], temp1.back());
 		else g[v] = max(g[v], temp1[temp1.size() - 2]);
 		ll sum = temp2.back() + temp2[temp2.size() - 2] + temp2[temp2.size() - 3];
-		if (longest[v] + w[u] > temp2[temp2.size() - 3]) g[v] = max(g[v], sum - longest[v] - w[u] - w[u]);
+		if (longest[v] + w[u] > temp2[temp2.size() - 3]) 
+			g[v] = max(g[v], sum - longest[v] - w[u] - w[u]);
 		else g[v] = max(g[v], sum - temp2[temp2.size() - 3] - w[u]);
 		if (longest[v] + w[u] == temp2.back()) up[v] = temp2[temp2.size() - 2] + w[v];
 		else up[v] = temp2.back() + w[v];
@@ -76,7 +77,7 @@ void Dfs_Second(int u) {
 
 int main() {
 	fast;
-	fre();
+	// fre();
 	cin >> n;
 	for (int i = 1; i <= n; i++) cin >> w[i];
 	for (int i = 1; i < n; i++) {

@@ -1,4 +1,3 @@
-#pragma GCC optimize ("O2")
 #include <bits/stdc++.h>
 
 #define ll long long
@@ -23,7 +22,7 @@ void fre() {
 	string finp = NAME + ".inp";
 	string fout = NAME + ".out";
 	freopen(finp.c_str(), "r", stdin);
-	//freopen(fout.c_str(), "w", stdout);
+	freopen(fout.c_str(), "w", stdout);
 }
 
 struct line {
@@ -70,33 +69,18 @@ ll query(ll node, ll l, ll r, ll pos) {
 void update(ll node, ll l, ll r, ll u, ll v, line val) {
 	if (v < l || r < u) return ;
 	if (u <= l && r <= v) {
-		if (get(it[node], l) >= get(val, l) && get(it[node], r) >= get(val, r)) return ;
-		if (get(it[node], l) <= get(val, l) && get(it[node], r) <= get(val, r)) {
-			it[node] = val;
-			return ;
-		}
-		ll mid = (l + r) / 2;
-		if (get(it[node], l) <= get(val, l) && get(it[node], mid) <= get(val, mid)) {
-			update(node * 2 + 1, mid + 1, r, u, v, it[node]);
-			it[node] = val;
-			return ;
-		}
-		if (get(it[node], l) >= get(val, l) && get(it[node], mid) >= get(val, mid)) {
-			update(node * 2 + 1, mid + 1, r, u, v, val);
-			return ;
-		}
-		if (get(it[node], r) <= get(val, r) && get(it[node], mid + 1) <= get(val, mid + 1)) {
-			update(node * 2, l, mid, u, v, it[node]);
-			it[node] = val;
-			return ;
-		}
-		if (get(it[node], r) >= get(val, r) && get(it[node], mid + 1) >= get(val, mid + 1)) {
-			update(node * 2, l, mid, u, v, val);
-			return ;
-		}
+		int m = (l + r) / 2;
+		bool mid = get(val, m) > get(it[node], m);
+		bool lef = get(val, l) > get(it[node], l);
+		if (mid) swap(it[node], val);
+		if (l == r) return ;
+		if (lef != mid) update(node * 2, l, m, u, v, val);
+		else update(node * 2 + 1, m + 1, r, u, v, val);
 	}
-	update(node * 2, l, (l + r) / 2, u, v, val);
-	update(node * 2 + 1, (l + r) / 2 + 1, r, u, v, val);
+	else if (l != r) {
+		update(node * 2, l, (l + r) / 2, u, v, val);
+		update(node * 2 + 1, (l + r) / 2 + 1, r, u, v, val);
+	}
 }
 
 ll bs1(ll x) {

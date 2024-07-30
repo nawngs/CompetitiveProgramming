@@ -1,88 +1,81 @@
+//[UNFINISHED]
 #include <bits/stdc++.h>
-using namespace std;
- 
-//types
+
+#define name "harem"
 #define ll long long
 #define ld long double
-#define pll pair<ll, ll>
-#define pld pair<ld, ld>
-#define pii pair<int, int>
- 
-#define fi first
+#define fi first 
 #define se second
- 
-const ld PI = 3.14159265359;
-const ll mx = 3e5+5, mod = 1e9+7;
+#define pll pair < ll, ll >
+#define pii pair < int, int >
+#define fast ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+#define SZE(x) ((int)(x).size())
+#define pb push_back
+#define mp make_pair
+#define lnode node * 2, l, (l + r) / 2
+#define rnode node * 2 + 1, (l + r) / 2 + 1, r
 
-int n, m, a[mx], lh[mx];
+using namespace std;
 
-pii edges[mx], cnt[mx];
+const ld EPS = 1e-9;
+const int INF = 1e9 + 7;
+const ll LINF = 1E18;
+const int NMAX = 3e5;
+const ll MOD = 1e9 + 7;
+const ll BASE = 2309;
 
-vector<int> adj[mx];
+int n, m, deg[NMAX + 3];
 
-vector<int> res, ans;
- 
-bool check(int val) {
-    res.clear();
-    for (int i = 1; i <= n; i++) adj[i].clear(), lh[i] = 0;
-    for (int i = 1; i <= val; i++) {
-        adj[edges[i].se].push_back(edges[i].fi);
-        lh[edges[i].fi]++;
-    }
- 
-    int cnt, pos, expect = 0;
-    cnt = 0, pos = 1;
-    for (int i = 1; i <= n; i++) {
-        if (lh[i] == 0) {
-            if (cnt) return false;
-            cnt = 1;
-            pos = i;
-        }
-    }
-    if (!cnt) return false;
- 
-    res.push_back(pos);
-    for (int tmp = 1; tmp <= n-1; tmp++) {
-        cnt = 0;
-        for (auto i : adj[pos]) {
-            lh[i]--;
-            if (lh[i] == 0) {
-                if (cnt) return false;
-                cnt = 1;
-                pos = i;
-                res.push_back(pos);
-            }
-        }
-    }
-    if (!cnt) return false;
-    ans = res;
-    return true;
+pii a[NMAX + 3];
+
+vector < int > topo, res, adj[NMAX + 3];
+
+bool check(int x) {
+	topo.clear();
+	for (int i = 1; i <= n; i++) {
+		adj[i].clear();
+		deg[i] = 0;
+	}
+	for (int i = 1; i <= x; i++) {
+		adj[a[i].fi].pb(a[i].se);
+		deg[a[i].se] ++;
+	}
+	for (int i = 1; i <= n; i++) if (!deg[i]) {
+		if (topo.size()) return false;
+		topo.pb(i);
+	}
+	if (!topo.size()) return false;
+	for (int i = 2; i <= n; i++) {
+		int u = topo.back();
+		for (auto v : adj[u]) {
+			deg[v] --;
+			if (deg[v] == 0) topo.pb(v);
+		}
+		if (SZE(topo) != i) return false;
+	}
+	return true;
 }
- 
+
 int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0), cout.tie(0);
- 
-    freopen("harem.inp", "r", stdin);
-    freopen("harem.out", "w", stdout);
-    cin >> n >> m;
-    for (int i = 1; i <= m; i++) cin >> edges[i].fi >> edges[i].se;
-    
-    int l = 1, r = m, kq = -1;
-    while (l <= r)
-    {
-        int mid = (l + r) / 2;
-        if (!check(mid)) l = mid+1;
-        else
-        {
-            kq = mid;
-            r = mid-1;
-        }
-    }
-    cout << kq << '\n';
-    if (kq != -1) {
-   		 reverse(ans.begin(), ans.end());
-    	for (auto i : ans) cout << i << " "; 	
-    }
-   
+	fast;
+	if(fopen(name".inp", "r")) {
+		freopen(name".inp", "r", stdin);
+		freopen(name".out", "w", stdout);
+	}
+	//int t; cin >> t; while (t --) sol();
+	cin >> n >> m;
+	for (int i = 1; i <= m; i++) cin >> a[i].fi >> a[i].se;
+	int l = 1, r = m, mid, ans = -1;
+	while (l <= r) {
+		mid = (l + r) / 2;
+		if (check(mid)) {
+			ans = mid;
+			res = topo;
+			r = mid - 1;
+		}
+		else l = mid + 1;
+	}
+	cout << ans << '\n';
+	if (ans != -1) for (auto x : res) cout << x << " ";
+	
 }
